@@ -1,0 +1,49 @@
+
+
+Block
+	status : {gothrough,source,unmark};
+	颜色 color
+绘制			
+
+路径
+	vector<Block> Ways;
+		
+	每个源有一条
+
+游戏
+	路径：一开始为空，一条链
+	blocks
+	map  :每个block对应哪条路径	
+
+事件	
+
+	
+	
+游戏准备：
+	绘制背景
+	生成源
+
+鼠标单击
+	检查是否是源{
+		添加路径头
+		进入tracking状态
+	}
+
+鼠标press
+	处于tracking状态，和路径的最后一个相邻
+	状态为unmark{
+		加入当前路径	
+	}		
+	状态为gothrough{
+		case 别的路：打断原来的路径，加入路径
+		case 自己，不动
+	}
+
+鼠标松开
+	处于tracking状态
+	untracking
+	到达目的{
+		保持现状
+		检查通关
+	}else{
+	}	
