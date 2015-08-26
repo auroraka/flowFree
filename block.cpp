@@ -3,6 +3,10 @@
 
 Block::Block()
 {
+    rect=QRect(0,0,0,0);
+    loc=QPoint(0,0);
+    color=0;
+    status=unmark;
 
 }
 

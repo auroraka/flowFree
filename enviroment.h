@@ -3,7 +3,6 @@
 
 #include <QColor>
 
-extern int gameFormat;
 static const int startX=50,startY=50,Weight=700,Height=700;
 static const int penLen=2;
 static const int myColorTot = 10;

@@ -3,7 +3,7 @@
 
 Way::Way()
 {
-
+    link.clear();
 }
 
 void Way::initWay(){

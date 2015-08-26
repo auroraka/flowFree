@@ -1,30 +1,27 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef GAMEINTERFACE_H
+#define GAMEINTERFACE_H
 
-#include "way.h"
-#include "block.h"
+#include "gameinfo.h"
+#include "drawer.h"
 #include <QMainWindow>
 
 namespace Ui {
-class GameControl;
+class GameInterface;
 }
 
-class GameControl : public QMainWindow
+class GameInterface : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit GameControl(QWidget *parent = 0);
-    ~GameControl();
+    explicit GameInterface(QWidget *parent = 0);
+    ~GameInterface();
     //Event
     void paintEvent(QPaintEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
 
-    void drawGridding();
-    void drawBlocks();
-    void drawWays();
     void startGame();
     void restartGame();
     void quitGame();
@@ -36,7 +33,7 @@ public:
     int focusWay;
 
 private slots:
-    void on_action_triggered();
+    //void on_action_triggered();
 
 private:
     void makeBlocksInfo();
@@ -46,16 +43,14 @@ private:
     void makePos(int &x,int &y);
     void cutWay(int num);
     void clearWay(int num);
+    int getLen();
+    int mapPos(int x,int y,int &a,int &b);
+
 
 private:
-    Ui::GameControl *ui;
-    Block blocks[15][15];
-    int map[15][15];
-    Way ways[50];
-    int waysTot;
-    int sourceTot;
-    int nowWay;
-
+    Ui::GameInterface *ui;
+    GameInfo game;
+    Drawer *drawer;
 };
 
-#endif // MAINWINDOW_H
+#endif // GAMEINTERFACE_H

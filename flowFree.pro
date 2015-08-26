@@ -13,17 +13,27 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-    chooseform.cpp \
     block.cpp \
     way.cpp \
-    gamecontrol.cpp
+    welcomeinterface.cpp \
+    designinterface.cpp \
+    gameinterface.cpp \
+    gameinfo.cpp \
+    drawer.cpp \
+    textinfo.cpp
 
 HEADERS  += \
-    chooseform.h \
     enviroment.h \
     block.h \
     way.h \
-    gamecontrol.h
+    welcomeinterface.h \
+    designinterface.h \
+    gameinterface.h \
+    gameinfo.h \
+    drawer.h \
+    textinfo.h
 
 FORMS    += \
-    gamecontrol.ui
+    welcomeinterface.ui \
+    designinterface.ui \
+    gameinterface.ui

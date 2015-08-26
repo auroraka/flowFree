@@ -1,7 +1,7 @@
 #ifndef CHOOSEFORM_H
 #define CHOOSEFORM_H
 
-#include "gamecontrol.h"
+#include "gameinterface.h"
 #include <QWidget>
 #include <QPushButton>
 #include <QRadioButton>

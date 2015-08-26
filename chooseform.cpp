@@ -47,6 +47,7 @@ chooseForm::chooseForm(QWidget *parent) : QDialog(parent)
     connect(&(this->button),SIGNAL(clicked(bool)),this,SLOT(chooseDone()));
 }
 
+
 void chooseForm::chooseDone(){
     if (radio5.isChecked()) gameFormat=5;
     if (radio6.isChecked()) gameFormat=6;
