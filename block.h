@@ -3,13 +3,24 @@
 
 #include <QColor>
 #include <QRect>
+#include <QPoint>
+
+enum Status{gothrough,source,unmark};
 
 class Block
 {
 public:
-    Block(QRect rect = QRect(0,0,0,0),QColor color = QColor(0,0,0));
+    Block();
     QRect rect;
-    QColor color;
+    QPoint loc;
+    int color;
+    Status status;
+
+    QPoint getCenter(){return QPoint(rect.x()+rect.width()/2,rect.y()+rect.height()/2);}
+    bool isNeighbour(const Block &a);
+    bool isSame(const Block &a){return loc.x()==a.loc.x() && loc.y()==a.loc.y();}
+    bool initBlock();
+private:
 };
 
 #endif // BLOCK_H
