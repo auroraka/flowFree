@@ -9,6 +9,9 @@ class Drawer
 public:
     Drawer(QPaintDevice *device,GameInfo *game);
     void draw();
+    void drawSource(QColor color,QPoint pos);
+    QPainter *painter;
+
 
 private:
     void drawGridding();

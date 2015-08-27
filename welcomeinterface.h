@@ -27,6 +27,7 @@ private slots:
 
     void on_help_button_clicked();
 
+
 private:
     Ui::WelcomeInterface *ui;
 };

@@ -3,6 +3,8 @@
 
 #include "gameinfo.h"
 #include "drawer.h"
+#include "textinfo.h"
+#include "chooseinterface.h"
 #include <QMainWindow>
 
 namespace Ui {
@@ -23,12 +25,12 @@ public:
     void mouseReleaseEvent(QMouseEvent *event);
 
     void startGame();
-    void restartGame();
     void quitGame();
     bool checkGameComplete();
     void gameComplete();
     bool checkGameFinishHalf();
     void gameFinishHalf();
+    void connectTextInfo(ChooseInterface *choose);
     bool isTracking;
     int focusWay;
 
@@ -36,6 +38,12 @@ private slots:
     //void on_action_triggered();
 
     void on_back_button_clicked();
+
+    void on_previous_level_button_clicked();
+
+    void on_next_level_button_clicked();
+
+    void on_restart_button_clicked();
 
 private:
     void makeBlocksInfo();
@@ -47,7 +55,14 @@ private:
     void clearWay(int num);
     int getLen();
     int mapPos(int x,int y,int &a,int &b);
+    int level,id;
 
+public slots:
+    void getTextInfo(TextInfo text,int level,int id);
+    void nextLevel();
+    void previousLevel();
+    void restartGame();
+    void keepGame();
 
 private:
     Ui::GameInterface *ui;

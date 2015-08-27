@@ -11,21 +11,49 @@ GameInfo::GameInfo()
     makeBlocksInfo();
 }
 
-int GameInfo::getLen(){
-    return Height/gameFormat;
+bool GameInfo::legalDesign(){
+    int colorCount[maxColorTot];
+    for (int i=0;i<myColorTot;i++) colorCount[i]=0;
+    for (int i=1;i<=waysTot;i++) if (ways[i].size()>1) return false;
+    for (int i=1;i<=gameFormat;i++)
+        for (int j=1;j<=gameFormat;j++){
+            colorCount[blocks[i][j].color]++;
+        }
+    for (int i=1;i<=myColorTot;i++) if (!(colorCount[i]==0||colorCount[i]==2)){
+        qDebug()<<"color number ilegal: "<<myColor[i]<<" ->"<<colorCount[i];
+        return false;
+    }
+    return true;
+}
+void GameInfo::restart(){
+    for (int i=1;i<=waysTot;i++) ways[i].clearTail();
+    for (int i=1;i<=gameFormat;i++)
+        for (int j=1;j<=gameFormat;j++){
+            if (blocks[i][j].status == gothrough) blocks[i][j].status = unmark;
+            if (blocks[i][j].status != source){
+                map[i][j]=0;
+                blocks[i][j].color=0;
+            }
+        }
+    nowWay=0;
 }
 
+void GameInfo::reInit(){
+    nowWay=0;
+    for (int i=1;i<=waysTot;i++) ways[i].initWay();
+    waysTot=0;
+    makeBlocksInfo();
+
+}
 
 void GameInfo::makeBlocksInfo(){
     qDebug()<<"make blocks info";
-    int len=getLen();
     for (int i=1;i<=gameFormat;i++)
         for (int j=1;j<=gameFormat;j++){
-            blocks[i][j].rect=QRect(startY+len*(j-1),startX+len*(i-1),len,len);
             blocks[i][j].color=0;
             blocks[i][j].status=unmark;
             blocks[i][j].loc=QPoint(i,j);
-            qDebug()<<"make blocks: "<<i<<" "<<j<<" "<<"color: "<<blocks[i][j].color<<blocks[i][j].rect;
+            //qDebug()<<"make blocks: "<<i<<" "<<j<<" "<<"color: "<<blocks[i][j].color<<blocks[i][j].getRect();
         }
 
 }
@@ -97,3 +125,16 @@ void GameInfo::makeSource(){
         }
 }
 //-----
+
+
+bool GameInfo::getLoc(int &a,int &b,QPoint pos){
+       a=(pos.y()-startX)/BlockLen+1;
+       b=(pos.x()-startY)/BlockLen+1;
+       if (!(1<=a&&a<=gameFormat&&1<=b&&b<=gameFormat)){
+           a=0;
+           b=0;
+           return false;
+       }
+       return true;
+}
+

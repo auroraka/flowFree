@@ -8,7 +8,6 @@ class GameInfo
 {
 public:
     GameInfo();
-    int getLen();
     void makeBlocksInfo();
     void clearWay(int);
     void cutWay(int);
@@ -16,6 +15,10 @@ public:
     void makeColor(int &color);
     void makePos(int &x,int &y);
     void makeSource();
+    void reInit();
+    void restart();
+    bool getLoc(int &a,int &b,QPoint pos);
+    bool legalDesign();
 
     Block blocks[15][15];
     int map[15][15];

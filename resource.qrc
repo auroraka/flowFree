@@ -1,0 +1,24 @@
+<RCC>
+    <qresource prefix="/level">
+        <file>level/5/5-1.bak</file>
+        <file>level/5/5-2.bak</file>
+        <file>level/5/5-3.bak</file>
+        <file>level/5/5-4.bak</file>
+        <file>level/5/5-5.bak</file>
+        <file>level/5/5-6.bak</file>
+        <file>level/5/5-7.bak</file>
+        <file>level/5/5-8.bak</file>
+        <file>level/5/5-9.bak</file>
+        <file>level/5/5-10.bak</file>
+        <file>level/6/6-1.bak</file>
+        <file>level/6/6-2.bak</file>
+        <file>level/6/6-3.bak</file>
+        <file>level/6/6-4.bak</file>
+        <file>level/6/6-5.bak</file>
+        <file>level/7/7-1.bak</file>
+        <file>level/7/7-2.bak</file>
+        <file>level/7/7-3.bak</file>
+        <file>level/7/7-4.bak</file>
+        <file>level/7/7-5.bak</file>
+    </qresource>
+</RCC>

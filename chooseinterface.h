@@ -1,6 +1,7 @@
 #ifndef CHOOSEINTERFACE_H
 #define CHOOSEINTERFACE_H
 
+#include "textinfo.h"
 #include <QWidget>
 
 namespace Ui {
@@ -14,6 +15,12 @@ class ChooseInterface : public QWidget
 public:
     explicit ChooseInterface(QWidget *parent = 0);
     ~ChooseInterface();
+    void paintEvent(QPaintEvent *event);
+    void mousePressEvent(QMouseEvent *event);
+    void loadGame(int level,int id);
+
+signals:
+    sendTextInfo(TextInfo text,int level,int id);
 
 private slots:
 

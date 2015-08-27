@@ -3,6 +3,7 @@
 #include "switcher.h"
 #include "ui_welcomeinterface.h"
 #include "settingform.h"
+#include "textinfo.h"
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QDebug>
@@ -14,6 +15,7 @@ WelcomeInterface::WelcomeInterface(QWidget *parent) :
     ui(new Ui::WelcomeInterface)
 {
     ui->setupUi(this);
+    this->hide();
 }
 
 WelcomeInterface::~WelcomeInterface()
@@ -34,8 +36,16 @@ void WelcomeInterface::on_designGame_button_clicked()
 
 void WelcomeInterface::on_loadGame_button_clicked()
 {
-    QUrl url = QFileDialog::getOpenFileUrl(this,"打开游戏存档");
+    QUrl url = QFileDialog::getOpenFileUrl(this,"打开游戏存档",QUrl("/"),"(*.bak)");
     qDebug()<<"open file: "<<url.path();
+    TextInfo text;
+    text.openFile(url.path().remove(0,1));
+    GameInfo game;
+    if (!text.transToGameInfo(game)){
+        QMessageBox::warning(this,"错误","非法的游戏存档",QMessageBox::Abort);
+        return;
+    }
+
 }
 
 void WelcomeInterface::on_setting_button_clicked()
@@ -59,3 +69,4 @@ void WelcomeInterface::on_help_button_clicked()
         ;
     QMessageBox::about(this,"Flow Free",info);
 }
+

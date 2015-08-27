@@ -8,6 +8,7 @@
 #include "settingform.h"
 #include <QApplication>
 #include <QDebug>
+#include <QTime>
 
 Switcher switcher;
 Music music;
@@ -16,11 +17,14 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
+    qsrand(QTime(0,0,0).secsTo(QTime::currentTime()));
+
 
     static DesignInterface design;
     static WelcomeInterface welcome;
     static GameInterface game;
     static ChooseInterface choose;
+    game.connectTextInfo(&choose);
 
     switcher.add("design",&design);
     switcher.add("welcome",&welcome);
@@ -28,5 +32,11 @@ int main(int argc, char *argv[])
     switcher.add("choose",&choose);
 
     switcher.showInterface("welcome");
+    welcome.setGeometry(100,100,welcome.width(),welcome.height());
+
+    //Test---------
+    //GameInterface game;
+    //game.show();
+    //-------------
     return a.exec();
 }

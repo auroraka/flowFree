@@ -26,6 +26,45 @@
     <string>Back</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="previous_level_button">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>760</y>
+     <width>93</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>上一关</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="restart_button">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>760</y>
+     <width>93</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>重来</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="next_level_button">
+   <property name="geometry">
+    <rect>
+     <x>380</x>
+     <y>760</y>
+     <width>93</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>下一关</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

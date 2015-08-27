@@ -46,4 +46,8 @@ FORMS    += \
     designinterface.ui \
     gameinterface.ui \
     chooseinterface.ui \
-    settingform.ui
+    settingform.ui \
+    gamedialog.ui
+
+RESOURCES += \
+    resource.qrc

@@ -18,11 +18,12 @@ void Switcher::showInterface(QString name){
     }
     QWidget *old=now;
     now = switcher[name];
+    now->show();
     if (old!=NULL){
-        int x=old->x(),y=old->y(),width=old->width(),height=old->height();
+        int x=old->x()+9,y=old->y()+38,width=old->width(),height=old->height();
+        qDebug()<<"Interface pos: "<<x<<" "<<y<<" "<<width<<" "<<height;
         now->setGeometry(x,y,width,height);
         old->hide();
     }
-    now->show();
     qDebug()<<"switcher switch to: "<<name;
 }
