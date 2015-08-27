@@ -2,6 +2,8 @@
 #define ENVIROMENT_H
 
 #include <QColor>
+#include <QWidget>
+#include <QPoint>
 
 static const int startX=50,startY=50,Weight=700,Height=700;
 static const int penLen=2;
@@ -19,6 +21,8 @@ static const QColor myColor[15]={
     QColor(128,128,0),//屎黄 10
 
 };
+static const int xo[]={0,0,1,-1};
+static const int yo[]={1,-1,0,0};
 
 #endif // ENVIROMENT
 

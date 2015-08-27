@@ -1,5 +1,6 @@
 #include "designinterface.h"
-#include "ui_designInterface.h"
+#include "switcher.h"
+#include "ui_designinterface.h"
 
 DesignInterface::DesignInterface(QWidget *parent) :
     QWidget(parent),
@@ -11,4 +12,9 @@ DesignInterface::DesignInterface(QWidget *parent) :
 DesignInterface::~DesignInterface()
 {
     delete ui;
+}
+
+void DesignInterface::on_back_button_clicked()
+{
+    switcher.showInterface("welcome");
 }

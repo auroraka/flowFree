@@ -20,7 +20,11 @@ SOURCES += main.cpp\
     gameinterface.cpp \
     gameinfo.cpp \
     drawer.cpp \
-    textinfo.cpp
+    textinfo.cpp \
+    switcher.cpp \
+    chooseinterface.cpp \
+    settingform.cpp \
+    music.cpp
 
 HEADERS  += \
     enviroment.h \
@@ -31,9 +35,15 @@ HEADERS  += \
     gameinterface.h \
     gameinfo.h \
     drawer.h \
-    textinfo.h
+    textinfo.h \
+    switcher.h \
+    chooseinterface.h \
+    settingform.h \
+    music.h
 
 FORMS    += \
     welcomeinterface.ui \
     designinterface.ui \
-    gameinterface.ui
+    gameinterface.ui \
+    chooseinterface.ui \
+    settingform.ui

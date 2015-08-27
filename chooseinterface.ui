@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>DesignInterface</class>
- <widget class="QWidget" name="DesignInterface">
+ <class>ChooseInterface</class>
+ <widget class="QWidget" name="ChooseInterface">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,14 +11,14 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Design Interface</string>
+   <string>Choose Interface</string>
   </property>
   <widget class="QCommandLinkButton" name="back_button">
    <property name="geometry">
     <rect>
-     <x>790</x>
-     <y>750</y>
-     <width>187</width>
+     <x>830</x>
+     <y>740</y>
+     <width>101</width>
      <height>41</height>
     </rect>
    </property>

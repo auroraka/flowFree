@@ -15,6 +15,9 @@ public:
     explicit DesignInterface(QWidget *parent = 0);
     ~DesignInterface();
 
+private slots:
+    void on_back_button_clicked();
+
 private:
     Ui::DesignInterface *ui;
 };

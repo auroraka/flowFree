@@ -1,6 +1,7 @@
 #include "ui_gameinterface.h"
 #include "enviroment.h"
 #include "gameinterface.h"
+#include "switcher.h"
 #include <QPainter>
 #include <QBrush>
 #include <QPen>
@@ -48,17 +49,7 @@ void GameInterface::mousePressEvent(QMouseEvent *event){
         this->update();
     }
 }
-void GameInterface::clearWay(int num){
-    for (int i=1;i<game.ways[num].link.size();i++){
-        game.map[game.ways[num].link[i]->loc.x()][game.ways[num].link[i]->loc.y()]=0;
-    }
-    game.ways[num].clearTail();
-    this->update();
-}
 
-void GameInterface::cutWay(int num){
-    clearWay(num);
-}
 
 void GameInterface::mouseMoveEvent(QMouseEvent *event){
     if (event->buttons() == Qt::LeftButton && isTracking){
@@ -69,7 +60,8 @@ void GameInterface::mouseMoveEvent(QMouseEvent *event){
         if (game.blocks[a][b].isNeighbour(game.ways[game.nowWay].last())){
             if ( game.blocks[a][b].status == gothrough && game.blocks[a][b].color != game.ways[game.nowWay].getColor()){
                 qDebug()<<"gothrough && color differrnt: "<<game.blocks[a][b].color<<" "<<game.ways[game.nowWay].getColor();
-                cutWay(game.map[a][b]);
+                game.cutWay(game.map[a][b]);
+                this->update();
                 qDebug()<<"cut way complete.";
             }
             //未标记点或终点
@@ -101,7 +93,8 @@ void GameInterface::mouseReleaseEvent(QMouseEvent *event){
             //到达终点合法,否则撤销已画路径
             if (game.blocks[a][b].status == source){
             }else{
-                clearWay(game.nowWay);
+                game.clearWay(game.nowWay);
+                this->update();
             }
             isTracking = 0;
             game.nowWay = 0;
@@ -121,90 +114,25 @@ void GameInterface::mouseReleaseEvent(QMouseEvent *event){
 //-------------------------gameControl--------------------------
 
 void GameInterface::startGame(){
-    isTracking = 0;
-    game.nowWay=0;
-    for (int i=1;i<=game.waysTot;i++) game.ways[i].initWay();
-    //exit(1);
-    game.waysTot=0;
-    for (int i=1;i<=game.gameFormat;i++)
-        for (int j=1;j<=game.gameFormat;j++){
-            game.blocks[i][j].initBlock();
-        }
+    qDebug()<<"game srart";
 
-    makeBlocksInfo();
-    makeSource();
+    game.makeSource();
+    this->update();
 }
 
 void GameInterface::restartGame(){
+    qDebug()<<"game restarting...";
+    isTracking = 0;
+    game.nowWay=0;
+    for (int i=1;i<=game.waysTot;i++) game.ways[i].initWay();
+    game.waysTot=0;
+    game.makeBlocksInfo();
     startGame();
 }
 
 void GameInterface::quitGame(){
     exit(0);
 }
-
-void GameInterface::makeBlocksInfo(){
-    int len=game.getLen();
-    for (int i=1;i<=game.gameFormat;i++)
-        for (int j=1;j<=game.gameFormat;j++){
-            game.blocks[i][j].rect=QRect(startY+len*(j-1),startX+len*(i-1),len,len);
-            game.blocks[i][j].color=0;
-            game.blocks[i][j].status=unmark;
-            game.blocks[i][j].loc=QPoint(i,j);
-            qDebug()<<i<<" "<<j<<" "<<"color: "<<game.blocks[i][j].color<<game.blocks[i][j].rect;
-        }
-
-}
-
-bool GameInterface::isLegal(){
-    if (game.sourceTot>myColorTot){
-        qDebug()<<"color not enough...";
-        exit(0);
-    }
-    return true;
-}
-
-void GameInterface::makePos(int &x,int &y){
-    do{
-        x=qrand()%game.gameFormat+1,y=qrand()%game.gameFormat+1;
-    }while(game.blocks[x][y].status == source);
-}
-
-int markColor[myColorTot+5];
-void GameInterface::makeColor(int &color){
-    do{
-        color=qrand()%(myColorTot-1)+1;
-    }while(markColor[color]);
-    markColor[color]=1;
-
-}
-
-void GameInterface::makeSource(){
-    do{
-        game.sourceTot=3;
-        for (int i=1;i<=game.sourceTot;i++){
-            int x,y,x2,y2,color;
-            makePos(x,y);
-            makePos(x2,y2);
-            makeColor(color);
-            game.blocks[x][y].status = source;
-            game.blocks[x][y].color=color;
-            game.blocks[x2][y2].status = source;
-            game.blocks[x2][y2].color=color;
-        }
-    }while (!isLegal());
-    game.waysTot=0;
-    for (int i=1;i<=game.gameFormat;i++)
-        for (int j=1;j<=game.gameFormat;j++){
-            if (game.blocks[i][j].status == source){
-                game.ways[++game.waysTot].link.clear();
-                game.ways[game.waysTot].add(&game.blocks[i][j]);
-                game.map[i][j]=game.waysTot;
-            }
-        }
-}
-
-
 
 
 
@@ -250,7 +178,8 @@ void GameInterface::gameFinishHalf(){
     if (ret == QMessageBox::Yes){
 
     }else{
-        quitGame();
+        //quitGame();
+        restartGame();
     }
 }
 
@@ -258,10 +187,12 @@ GameInterface::GameInterface(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::GameInterface)
 {
+    qDebug()<<"gameInterface maked";
     ui->setupUi(this);
     qsrand(QTime(0,0,0).secsTo(QTime::currentTime()));
-    game.gameFormat = 7;
     drawer = new Drawer(this,&game);
+    this->update();
+//    qDebug()<<"rect2: "<<game.blocks[3][3].rect;
 
     startGame();
 }
@@ -274,3 +205,8 @@ GameInterface::~GameInterface()
 
 
 
+
+void GameInterface::on_back_button_clicked()
+{
+    switcher.showInterface("choose");
+}

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>GameInterface</class>
- <widget class="QWidget" name="Form">
+ <widget class="QWidget" name="GameInterface">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,8 +11,21 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Game Interface</string>
   </property>
+  <widget class="QCommandLinkButton" name="back_button">
+   <property name="geometry">
+    <rect>
+     <x>800</x>
+     <y>760</y>
+     <width>187</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Back</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

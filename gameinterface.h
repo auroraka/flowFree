@@ -35,6 +35,8 @@ public:
 private slots:
     //void on_action_triggered();
 
+    void on_back_button_clicked();
+
 private:
     void makeBlocksInfo();
     bool isLegal();
