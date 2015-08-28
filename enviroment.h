@@ -17,7 +17,10 @@ static const int penLen=2;
 static const int selectionStartX=730,selectionStartY=250;
 //设计界面8个待选颜色间距
 static const int selectionLen=100;
-
+//作弊码
+//static const int cheatKeys[]={16777248,90,89,90,90,89};//shift+xyzzy
+//static const int cheatTot=6;
+static const QString cheatKeys="XYZZY";
 
 //总颜色数
 static const int myColorTot = 11;

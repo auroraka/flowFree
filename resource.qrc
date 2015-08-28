@@ -21,4 +21,21 @@
         <file>level/7/7-4.bak</file>
         <file>level/7/7-5.bak</file>
     </qresource>
+    <qresource prefix="/music">
+        <file>music/cheaton.wav</file>
+        <file>music/count1s.wav</file>
+        <file>music/count2s.wav</file>
+        <file>music/count3s.wav</file>
+        <file>music/gameComplete.wav</file>
+        <file>music/menuback.wav</file>
+        <file>music/menuclick.wav</file>
+        <file>music/sectionfail.wav</file>
+        <file>music/sectionpass.wav</file>
+        <file>music/spinnerbonus.wav</file>
+        <file>music/taiko-normal-hitnormal.wav</file>
+        <file>music/waybreak.wav</file>
+        <file>music/wayconnect.wav</file>
+        <file>music/gameFinishHalf.wav</file>
+        <file>music/background.wav</file>
+    </qresource>
 </RCC>

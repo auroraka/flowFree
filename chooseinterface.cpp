@@ -80,5 +80,5 @@ ChooseInterface::~ChooseInterface()
 
 void ChooseInterface::on_back_button_clicked()
 {
-    switcher.showInterface("welcome");
+    switcher.showInterface("welcome","menuback");
 }

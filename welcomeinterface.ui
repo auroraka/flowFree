@@ -78,6 +78,19 @@
     <string>帮助</string>
    </property>
   </widget>
+  <widget class="QCommandLinkButton" name="exit_button">
+   <property name="geometry">
+    <rect>
+     <x>850</x>
+     <y>720</y>
+     <width>91</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Exit</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

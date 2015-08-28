@@ -1,6 +1,7 @@
 #include "welcomeinterface.h"
 #include "enviroment.h"
 #include "switcher.h"
+#include "music.h"
 #include "ui_welcomeinterface.h"
 #include "settingform.h"
 #include "textinfo.h"
@@ -45,6 +46,9 @@ void WelcomeInterface::on_loadGame_button_clicked()
         QMessageBox::warning(this,"错误","非法的游戏存档",QMessageBox::Abort);
         return;
     }
+    emit sendTextInfo(text,game.gameFormat,0);
+    switcher.showInterface("game");
+
 
 }
 
@@ -70,3 +74,8 @@ void WelcomeInterface::on_help_button_clicked()
     QMessageBox::about(this,"Flow Free",info);
 }
 
+
+void WelcomeInterface::on_exit_button_clicked()
+{
+    exit(0);
+}

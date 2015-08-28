@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -24,7 +24,8 @@ SOURCES += main.cpp\
     switcher.cpp \
     chooseinterface.cpp \
     settingform.cpp \
-    music.cpp
+    music.cpp \
+    solution.cpp
 
 HEADERS  += \
     enviroment.h \
@@ -39,7 +40,8 @@ HEADERS  += \
     switcher.h \
     chooseinterface.h \
     settingform.h \
-    music.h
+    music.h \
+    solution.h
 
 FORMS    += \
     welcomeinterface.ui \

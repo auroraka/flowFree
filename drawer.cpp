@@ -79,5 +79,4 @@ void Drawer::draw(){
     drawBlocks();
     drawGridding();
     drawWays();
-
 }

@@ -25,6 +25,7 @@ int main(int argc, char *argv[])
     static GameInterface game;
     static ChooseInterface choose;
     game.connectTextInfo(&choose);
+    game.connectTextInfo(&welcome);
 
     switcher.add("design",&design);
     switcher.add("welcome",&welcome);
@@ -38,5 +39,6 @@ int main(int argc, char *argv[])
     //GameInterface game;
     //game.show();
     //-------------
+
     return a.exec();
 }

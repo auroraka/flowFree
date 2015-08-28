@@ -13,6 +13,8 @@ public:
     bool saveFile(QString fileDir);
     void print();
     bool loadGame(int level,int id);
+
+    int noSolution;
 private:
     bool inMap(int x,int y);
     bool dfs(int x,int y,int num,GameInfo &game);

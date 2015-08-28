@@ -1,5 +1,7 @@
 #include "gameinfo.h"
 #include "enviroment.h"
+#include "music.h"
+#include "textinfo.h"
 #include <QDebug>
 
 GameInfo::GameInfo()
@@ -9,6 +11,12 @@ GameInfo::GameInfo()
     nowWay=0;
     gameFormat=5;
     makeBlocksInfo();
+    noSolution=0;
+}
+
+void GameInfo::print(){
+    TextInfo text(*this);
+    text.print();
 }
 
 bool GameInfo::legalDesign(){
@@ -69,6 +77,7 @@ void GameInfo::clearWay(int num){
 }
 
 void GameInfo::cutWay(int num){
+    music.playMusic("waybreak");
     clearWay(num);
 }
 //--------

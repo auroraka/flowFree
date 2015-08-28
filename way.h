@@ -15,9 +15,10 @@ public:
     int getColor()const{return (*link[0]).color;}
     Block& last(){return *link[link.size()-1];}
     Block& head(){return *link[0];}
-    void add(Block* a){link.push_back(a);}
+    void add(Block* a);
     void initWay();
     void clearTail();
+    void print();
 
 private:
 };

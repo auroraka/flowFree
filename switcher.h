@@ -12,7 +12,7 @@ class Switcher
 public:
     Switcher();
     void add(QString name,QWidget *interface);
-    void showInterface(QString name);
+    void showInterface(QString name,QString mode="menuclick");
 private:
    map<QString,QWidget*> switcher;
    QWidget *now;

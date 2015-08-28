@@ -19,6 +19,7 @@ public:
     void restart();
     bool getLoc(int &a,int &b,QPoint pos);
     bool legalDesign();
+    void print();
 
     Block blocks[15][15];
     int map[15][15];
@@ -27,6 +28,7 @@ public:
     int sourceTot;
     int nowWay;
     int gameFormat; 
+    int noSolution;
 };
 
 

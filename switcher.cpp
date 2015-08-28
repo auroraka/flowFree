@@ -1,4 +1,5 @@
 #include "switcher.h"
+#include "music.h"
 #include <QDebug>
 
 Switcher::Switcher()
@@ -11,7 +12,7 @@ void Switcher::add(QString name, QWidget *interface){
     qDebug()<<"switcher add: "<<QString(name);
     switcher[name]=interface;
 }
-void Switcher::showInterface(QString name){
+void Switcher::showInterface(QString name,QString mode){
     if (switcher.find(name)==switcher.end()){
         qDebug()<<"switcher ERROR: ["<<name<<"] not found.";
         return;
@@ -24,6 +25,9 @@ void Switcher::showInterface(QString name){
         qDebug()<<"Interface pos: "<<x<<" "<<y<<" "<<width<<" "<<height;
         now->setGeometry(x,y,width,height);
         old->hide();
+    }
+    if (mode!="none"){
+        music.playMusic(mode);
     }
     qDebug()<<"switcher switch to: "<<name;
 }

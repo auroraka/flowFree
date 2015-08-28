@@ -103,7 +103,7 @@ void DesignInterface::reInit(){
 
 void DesignInterface::on_back_button_clicked()
 {
-    switcher.showInterface("welcome");
+    switcher.showInterface("welcome","menuback");
     reInit();
     this->update();
 }

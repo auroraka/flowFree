@@ -1,6 +1,5 @@
 #include "way.h"
 #include <QDebug>
-
 Way::Way()
 {
     link.clear();
@@ -21,4 +20,18 @@ void Way::clearTail(){
     Block* temp = link[0];
     link.clear();
     link.push_back(temp);
+}
+void Way::add(Block *a){
+    //qDebug()<<"add block: "<<a->loc;
+    link.push_back(a);
+}
+
+void Way::print(){
+    QString info;
+    QTextStream stream(&info);
+    stream<<"way: ";
+    for (int i=0;i<link.size();i++){
+        stream<<"("<<link[i]->loc.x()<<link[i]->loc.y()<<")";
+    }
+    qDebug()<<info;
 }

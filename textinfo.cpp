@@ -23,6 +23,7 @@ TextInfo::TextInfo(const GameInfo &game)
                 map[i][j] = -game.blocks[i][j].color;
             }
         }
+    noSolution = game.noSolution;
 }
 
 
@@ -45,6 +46,7 @@ bool TextInfo::openFile(QString fileDir){
         qDebug()<<"no file in dir:"<<fileDir;
         return false;
     }
+    print();
     return true;
 }
 
@@ -80,18 +82,21 @@ int visit[maxColorTot][maxColorTot];
 
 
 bool TextInfo::dfs(int x,int y,int num,GameInfo &game){
+    //qDebug()<<"dfs... "<<x<<" "<<y<<" color: "<<game.ways[num].getColor()<<" num:"<<num;
     int tot=0,haveEnd=0;
     for (int i=0;i<4;i++){
         int nx=x+xo[i];
         int ny=y+yo[i];
+        //qDebug()<<"head loc:"<<game.ways[num].head().loc<<"| "<<nx<<" "<<ny<<" "<<(QPoint(nx,ny)!=game.ways[num].head().loc);
         if (inMap(nx,ny)){
-            if (!visit[nx][ny] && abs(map[x][y]) == abs(map[nx][ny])){
+            if (!visit[nx][ny] && (abs(map[x][y])==abs(map[nx][ny])) && (QPoint(nx,ny)!=game.ways[num].head().loc) ){
                 tot++;
-                visit[nx][ny]=1;
+                if (map[nx][ny]<0) visit[nx][ny]=1;
                 if (map[nx][ny]<0){
                     game.blocks[nx][ny].status = gothrough;
                     game.blocks[nx][ny].color = abs(map[nx][ny]);
                     game.ways[num].add(&game.blocks[nx][ny]);
+                   // qDebug()<<"loc: "<<game.blocks[nx][ny].loc<<"|"<<nx<<" "<<ny;
                     game.map[nx][ny]=num;
                     if (!dfs(nx,ny,num,game)){
                         return false;
@@ -135,7 +140,7 @@ bool TextInfo::haveGothrough(int x,int y){
         int nx=x+xo[i];
         int ny=y+yo[i];
         if (inMap(nx,ny)){
-            if (map[nx][ny]<0) count++;
+            if (map[nx][ny]<0&&abs(map[x][y])==abs(map[nx][ny])&&!visit[nx][ny]) count++;
         }
     }
     return count>0;
@@ -163,6 +168,7 @@ bool TextInfo::transToGameInfo(GameInfo &game){
                 game.blocks[i][j].color=map[i][j];
                 game.sourceTot ++;
                 game.waysTot ++;
+                game.ways[game.waysTot].initWay();
                 game.ways[game.waysTot].add(&game.blocks[i][j]);
                 game.map[i][j]=game.waysTot;
 
@@ -188,7 +194,6 @@ bool TextInfo::loadGame(int level,int id){
     QString fileDir;
     QTextStream(&fileDir)<<":/level/level/"<<level<<"/"<<level<<"-"<<id<<".bak";
     return openFile(fileDir);
-
 }
 
 void TextInfo::print(){

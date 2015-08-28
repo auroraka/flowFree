@@ -3,6 +3,8 @@
 #include "enviroment.h"
 #include "gameinterface.h"
 #include "chooseinterface.h"
+#include "solution.h"
+#include "music.h"
 #include "textinfo.h"
 #include "switcher.h"
 #include <QPainter>
@@ -15,6 +17,7 @@
 #include <QMouseEvent>
 #include <QMessageBox>
 #include <QTime>
+#include <QFileDialog>
 
 
 QDialog *mydialog;
@@ -62,7 +65,35 @@ void GameInterface::mousePressEvent(QMouseEvent *event){
         this->update();
     }
 }
+void GameInterface::keyPressEvent(QKeyEvent *event){
+    //qDebug()<<"key press: "<<QChar(event->key())<<"["<<event->key()<<"]"<<"   "<<event->modifiers();
+    if (event->modifiers() == Qt::ShiftModifier){
+        if (event->key()<256) cheatRecord+=QChar(event->key());
+    }
+}
+void GameInterface::cheat(){
+    qDebug()<<"cheating";
+    music.playMusic("cheaton");
+    TextInfo gameText;
+    Solution solution;
+    gameText=solution.getSolution(game);
+    if (!gameText.noSolution){
+        gameText.transToGameInfo(game);
+        this->update();
+    }
+}
 
+void GameInterface::keyReleaseEvent(QKeyEvent *event){
+    //qDebug()<<"key releasse: "<<event->key();
+    if (event->key() == 16777248){
+        if (cheatRecord == cheatKeys){
+           cheat();
+        }else{
+            qDebug()<<"password wrong: "<<cheatRecord;
+        }
+        cheatRecord="";
+    }
+}
 
 void GameInterface::mouseMoveEvent(QMouseEvent *event){
     if (event->buttons() == Qt::LeftButton && isTracking){
@@ -89,6 +120,7 @@ void GameInterface::mouseMoveEvent(QMouseEvent *event){
                 if (game.blocks[a][b].status == source){
                     game.nowWay=0;
                     isTracking=0;
+                    wayConnectEvent=1;
                 }
             }
         }
@@ -100,6 +132,10 @@ void GameInterface::mouseMoveEvent(QMouseEvent *event){
 void GameInterface::mouseReleaseEvent(QMouseEvent *event){
 
     if (event->button() == Qt::LeftButton){
+        if (wayConnectEvent){
+            wayConnectEvent=0;
+            music.playMusic("wayconnect");
+        }
         if (isTracking){
             int a,b;
             if (!game.getLoc(a,b,event->pos())) return;
@@ -113,11 +149,13 @@ void GameInterface::mouseReleaseEvent(QMouseEvent *event){
             game.nowWay = 0;
         }
         if (checkGameComplete()){
+            music.playMusic("gameComplete");
             gameComplete();
             this->update();
             return;
         }
         if (checkGameFinishHalf()){
+            music.playMusic("gameFinishHalf");
             gameFinishHalf();
             this->update();
             return;
@@ -130,6 +168,7 @@ void GameInterface::mouseReleaseEvent(QMouseEvent *event){
 //-------------------------gameControl--------------------------
 
 void GameInterface::startGame(){
+    showLevel();
     qDebug()<<"game srart";
 
    // game.makeSource();
@@ -211,6 +250,7 @@ GameInterface::GameInterface(QWidget *parent) :
     ui->setupUi(this);
     this->hide();
 
+    wayConnectEvent=0;
     drawer = new Drawer(this,&game);
 
     //startGame();
@@ -221,7 +261,7 @@ GameInterface::~GameInterface()
     delete ui;
 }
 
-void GameInterface::connectTextInfo(ChooseInterface *choose){
+void GameInterface::connectTextInfo(QWidget *choose){
     connect(choose,SIGNAL(sendTextInfo(TextInfo,int,int)),this,SLOT(getTextInfo(TextInfo,int,int)));
 }
 
@@ -231,7 +271,7 @@ void GameInterface::on_back_button_clicked()
 {
     isTracking = 0;
     game.reInit();
-    switcher.showInterface("choose");
+    switcher.showInterface("choose","menuback");
 }
 
 void GameInterface::on_previous_level_button_clicked()
@@ -256,6 +296,7 @@ void GameInterface::nextLevel(){
             exit(0);
         }
     }
+    showLevel();
 }
 void GameInterface::previousLevel(){
     if (mydialog != NULL){
@@ -276,6 +317,7 @@ void GameInterface::previousLevel(){
             exit(0);
         }
     }
+    showLevel();
 }
 
 void GameInterface::on_next_level_button_clicked()
@@ -286,4 +328,18 @@ void GameInterface::on_next_level_button_clicked()
 void GameInterface::on_restart_button_clicked()
 {
     restartGame();
+}
+
+void GameInterface::on_save_button_clicked()
+{
+    QUrl url=QFileDialog::getSaveFileUrl(this,"保存到",QUrl("/"),"(*.bak)");
+    qDebug()<<"save file :"<<url.path();
+    TextInfo text(game);
+    text.saveFile(url.path().remove(0,1));
+}
+
+void GameInterface::showLevel(){
+    QString info;
+    QTextStream(&info)<<tr("第 ")<<level<<tr("-")<<id<<tr(" 关");
+    ui->label->setText(info);
 }

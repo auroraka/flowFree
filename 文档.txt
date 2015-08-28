@@ -1,9 +1,18 @@
+
 #固定窗口大小
 
 新增功能：
 
 资源文件{
 	音乐
+background
+menuclick
+menuback
+gameComplete
+gameHalfFinish
+connect
+break
+cheat
 	关卡
 }
 

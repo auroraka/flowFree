@@ -23,6 +23,8 @@ public:
     void mouseMoveEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
+    void keyPressEvent(QKeyEvent *event);
+    void keyReleaseEvent(QKeyEvent *event);
 
     void startGame();
     void quitGame();
@@ -30,7 +32,8 @@ public:
     void gameComplete();
     bool checkGameFinishHalf();
     void gameFinishHalf();
-    void connectTextInfo(ChooseInterface *choose);
+    void connectTextInfo(QWidget *choose);
+    void showLevel();
     bool isTracking;
     int focusWay;
 
@@ -45,6 +48,8 @@ private slots:
 
     void on_restart_button_clicked();
 
+    void on_save_button_clicked();
+
 private:
     void makeBlocksInfo();
     bool isLegal();
@@ -56,6 +61,7 @@ private:
     int getLen();
     int mapPos(int x,int y,int &a,int &b);
     int level,id;
+    void cheat();
 
 public slots:
     void getTextInfo(TextInfo text,int level,int id);
@@ -68,6 +74,8 @@ private:
     Ui::GameInterface *ui;
     GameInfo game;
     Drawer *drawer;
+    QString cheatRecord;
+    int wayConnectEvent;
 };
 
 #endif // GAMEINTERFACE_H
