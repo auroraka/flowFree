@@ -38,4 +38,7 @@
         <file>music/gameFinishHalf.wav</file>
         <file>music/background.wav</file>
     </qresource>
+    <qresource prefix="/picture">
+        <file>picture/background.jpg</file>
+    </qresource>
 </RCC>

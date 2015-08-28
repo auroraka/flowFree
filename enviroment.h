@@ -8,11 +8,14 @@
 //source圆点的半径
 static const int sourceWide=30;
 //游戏界面的左上坐标
-static const int startX=30,startY=50;//坐标为(y,x),其中x为坐标轴x轴正方向,y为坐标轴y轴负方向
+static const int defaultStartX=30,defaultStartY=50;
+extern int startX,startY;//坐标为(y,x),其中x为坐标轴x轴正方向,y为坐标轴y轴负方向
 //游戏界面小格宽度
 static const int BlockLen=100;
 //网格线宽度
 static const int penLen=2;
+//游戏中心点
+static const QPoint GameCenter(400,380);
 //设计界面8个待选颜色左上坐标
 static const int selectionStartX=730,selectionStartY=250;
 //设计界面8个待选颜色间距

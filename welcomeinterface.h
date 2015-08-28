@@ -11,27 +11,18 @@ class WelcomeInterface;
 class WelcomeInterface : public QWidget
 {
     Q_OBJECT
-
 public:
     explicit WelcomeInterface(QWidget *parent = 0);
     ~WelcomeInterface();
 signals:
-    void sendTextInfo(TextInfo text,int level,int id);
+    void sendTextInfo(TextInfo text,int level,int id);//将"载入游戏"读到的游戏存档发送给GameInterface处理
 private slots:
-
-    void on_goIntoGame_button_clicked();
-
-    void on_designGame_button_clicked();
-
-    void on_loadGame_button_clicked();
-
-    void on_setting_button_clicked();
-
-    void on_help_button_clicked();
-
-
-    void on_exit_button_clicked();
-
+    void on_goIntoGame_button_clicked();//"进入游戏"按钮事件
+    void on_designGame_button_clicked();//"设计游戏"按钮事件
+    void on_loadGame_button_clicked();//"载入游戏"按钮事件
+    void on_setting_button_clicked();//"设置"按钮事件
+    void on_help_button_clicked();//"帮助"按钮事件
+    void on_exit_button_clicked();//"Exit"按钮事件
 private:
     Ui::WelcomeInterface *ui;
 };

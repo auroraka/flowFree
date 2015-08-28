@@ -15,6 +15,13 @@ ChooseInterface::ChooseInterface(QWidget *parent) :
 {
     ui->setupUi(this);
     this->hide();
+
+    //添加背景
+    this->setAutoFillBackground(true);
+    QPalette palette;
+    palette.setBrush(QPalette::Background, QBrush(QPixmap(":/picture/picture/background.jpg")));
+    this->setPalette(palette);
+
 }
 
 
@@ -31,10 +38,10 @@ void ChooseInterface::paintEvent(QPaintEvent *event){
 
         QString levelInfo;
         QTextStream(&levelInfo)<<id<<"*"<<id;
-        painter.drawText(QPoint(30,startX+40+BlockLen*(i-1)),levelInfo);
+        painter.drawText(QPoint(30+30,80+defaultStartX+40+BlockLen*(i-1)),levelInfo);
         for (int j=1;j<=7;j++){
-            painter.drawRect(QRect(startY+100+BlockLen*(j-1),startX+BlockLen*(i-1),BlockLen/3*2,BlockLen/3*2));
-            painter.drawText(QPoint(startY+120+BlockLen*(j-1),startX+40+BlockLen*(i-1)),QString::number(j));
+            painter.drawRect(QRect(30+defaultStartY+100+BlockLen*(j-1),80+defaultStartX+BlockLen*(i-1),BlockLen/3*2,BlockLen/3*2));
+            painter.drawText(QPoint(30+defaultStartY+120+BlockLen*(j-1),80+defaultStartX+40+BlockLen*(i-1)),QString::number(j));
         }
     }
 }
@@ -46,7 +53,7 @@ bool inBox(QPoint pos,QRect rect){
 bool getLoc(int &a,int &b,QPoint pos){
     for (int i=1;i<=5;i++)
         for (int j=1;j<=7;j++){
-            if (inBox(pos,QRect(startY+100+BlockLen*(j-1),startX+BlockLen*(i-1),BlockLen/3*2,BlockLen/3*2))){
+            if (inBox(pos,QRect(30+defaultStartY+100+BlockLen*(j-1),80+defaultStartX+BlockLen*(i-1),BlockLen/3*2,BlockLen/3*2))){
                 a=i;b=j;
                 return true;
             }

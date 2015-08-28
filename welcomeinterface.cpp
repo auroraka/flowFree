@@ -17,6 +17,13 @@ WelcomeInterface::WelcomeInterface(QWidget *parent) :
 {
     ui->setupUi(this);
     this->hide();
+
+    //添加背景
+    this->setAutoFillBackground(true);
+    QPalette palette;
+    palette.setBrush(QPalette::Background, QBrush(QPixmap(":/picture/picture/background.jpg")));
+    this->setPalette(palette);
+
 }
 
 WelcomeInterface::~WelcomeInterface()

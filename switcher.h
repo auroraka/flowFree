@@ -18,5 +18,6 @@ private:
    QWidget *now;
 };
 
+
 extern Switcher switcher;
 #endif // SWITCHER_H

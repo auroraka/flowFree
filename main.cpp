@@ -12,6 +12,7 @@
 
 Switcher switcher;
 Music music;
+int startX=30,startY=50;
 
 int main(int argc, char *argv[])
 {

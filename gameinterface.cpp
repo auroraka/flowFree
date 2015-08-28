@@ -206,9 +206,17 @@ void GameInterface::gameComplete(){
     mydialog = new QDialog(this);
     Ui::GameDialog ui;
     ui.setupUi(mydialog);
+    mydialog->setWindowTitle("finished");
     ui.pushButton->setText("next level");
     ui.pushButton_2->setText("play again");
     ui.label->setText("Well Done!");
+
+    //添加背景
+    mydialog->setAutoFillBackground(true);
+    QPalette palette;
+    palette.setColor(QPalette::Background, QColor(192,253,123));
+    mydialog->setPalette(palette);
+
     mydialog->show();
     connect(ui.pushButton,SIGNAL(clicked(bool)),this,SLOT(nextLevel()));
     connect(ui.pushButton_2,SIGNAL(clicked(bool)),this,SLOT(restartGame()));
@@ -227,9 +235,17 @@ void GameInterface::gameFinishHalf(){
     mydialog = new QDialog(this);
     Ui::GameDialog ui;
     ui.setupUi(mydialog);
+    mydialog->setWindowTitle("sorry...");
     ui.pushButton->setText("keep play");
     ui.pushButton_2->setText("skip level");
-    ui.label->setText("Almost there...");
+    ui.label->setText(tr("Almost there..."));
+
+    //添加背景
+    mydialog->setAutoFillBackground(true);
+    QPalette palette;
+    palette.setColor(QPalette::Background, QColor(192,253,123));
+    mydialog->setPalette(palette);
+
     mydialog->show();
     connect(ui.pushButton,SIGNAL(clicked(bool)),this,SLOT(keepGame()));
     connect(ui.pushButton_2,SIGNAL(clicked(bool)),this,SLOT(nextLevel()));
@@ -249,6 +265,12 @@ GameInterface::GameInterface(QWidget *parent) :
     qDebug()<<"gameInterface maked";
     ui->setupUi(this);
     this->hide();
+
+    //添加背景
+    this->setAutoFillBackground(true);
+    QPalette palette;
+    palette.setBrush(QPalette::Background, QBrush(QPixmap(":/picture/picture/background.jpg")));
+    this->setPalette(palette);
 
     wayConnectEvent=0;
     drawer = new Drawer(this,&game);

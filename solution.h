@@ -9,11 +9,11 @@ class Solution
 {
 public:
     Solution();
-    TextInfo getSolution(const GameInfo &game);
+    TextInfo getSolution(const GameInfo &game);//计算答案
 
 private:
-    void greedyAlgorithm();
-    bool dfs(int colorID,QPoint pos,int step);
+    void greedyAlgorithm();//贪心算法
+    bool dfs(int colorID,QPoint pos,int step);//暴力搜索
     bool inMap(int x,int y);
     bool fillAll();
 
@@ -22,5 +22,7 @@ private:
     int colorRecord[maxColorTot];
     QPoint record[100];
 };
+
+
 
 #endif // SOLUTION_H

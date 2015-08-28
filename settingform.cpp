@@ -8,6 +8,13 @@ SettingForm::SettingForm(QWidget *parent) :
     ui(new Ui::SettingForm)
 {
     ui->setupUi(this);
+
+    //添加背景
+    this->setAutoFillBackground(true);
+    QPalette palette;
+    palette.setColor(QPalette::Background, QColor(192,253,123));
+    this->setPalette(palette);
+
 }
 
 SettingForm::~SettingForm()

@@ -24,20 +24,12 @@ public:
     void reInit();
 
 private slots:
-    void on_back_button_clicked();
-
-
-    void on_radioButton_5_5_clicked();
-
-    void on_radioButton_6_6_clicked();
-
-    void on_radioButton_7_7_clicked();
-
-
-    void on_store_button_clicked();
-
-
-    void on_clear_button_clicked();
+    void on_back_button_clicked();//"Exit"按钮事件
+    void on_radioButton_5_5_clicked();//"5*5"按钮事件
+    void on_radioButton_6_6_clicked();//"6*6"按钮事件
+    void on_radioButton_7_7_clicked();//"7*7"按钮事件
+    void on_store_button_clicked();//"保存"按钮事件
+    void on_clear_button_clicked();//"重置"按钮事件
 
 private:
     Ui::DesignInterface *ui;

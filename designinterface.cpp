@@ -16,6 +16,13 @@ DesignInterface::DesignInterface(QWidget *parent) :
     ui->setupUi(this);
     this->hide();
     drawer  = new Drawer(this,&game);
+
+    //添加背景
+    this->setAutoFillBackground(true);
+    QPalette palette;
+    palette.setBrush(QPalette::Background, QBrush(QPixmap(":/picture/picture/background.jpg")));
+    this->setPalette(palette);
+
 }
 
 DesignInterface::~DesignInterface()

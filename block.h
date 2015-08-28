@@ -11,16 +11,17 @@ class Block
 {
 public:
     Block();
-    QPoint loc;
-    int color;
-    Status status;
+    QPoint loc;//坐标
+    int color;//颜色
+    Status status;//状态 status={source,gothrough,unmark}
 
-    QRect getRect();
-    QPoint getCenter();
-    bool isNeighbour(const Block &a);
+    QRect getRect();//Block所在的矩形框坐标
+    QPoint getCenter();//中心坐标
+    bool isNeighbour(const Block &a);//和某一个Block处于游戏界面相邻位置
     bool isSame(const Block &a){return loc.x()==a.loc.x() && loc.y()==a.loc.y();}
-    bool initBlock();
-private:
+    bool initBlock();//重置Block信息
 };
+
+
 
 #endif // BLOCK_H
