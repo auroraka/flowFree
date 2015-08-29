@@ -47,7 +47,7 @@ void WelcomeInterface::on_loadGame_button_clicked()
     QUrl url = QFileDialog::getOpenFileUrl(this,"打开游戏存档",QUrl("/"),"(*.bak)");
     qDebug()<<"open file: "<<url.path();
     TextInfo text;
-    text.openFile(url.path().remove(0,1));
+    if (!text.openFile(url.path().remove(0,1))) return;
     GameInfo game;
     if (!text.transToGameInfo(game)){
         QMessageBox::warning(this,"错误","非法的游戏存档",QMessageBox::Abort);
