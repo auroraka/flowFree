@@ -46,10 +46,12 @@ HEADERS  += \
 FORMS    += \
     welcomeinterface.ui \
     designinterface.ui \
-    gameinterface.ui \
+    gameinterface.ui \r
     chooseinterface.ui \
     settingform.ui \
     gamedialog.ui
 
 RESOURCES += \
     resource.qrc
+
+RC_FILE = ./icon/icon.rc
