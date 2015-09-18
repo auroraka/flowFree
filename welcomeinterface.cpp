@@ -8,6 +8,10 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QDebug>
+#include <QDragEnterEvent>
+#include <QDropEvent>
+#include <QMimeData>
+#include <QDrag>
 
 //static Switcher switcher;
 
@@ -23,7 +27,9 @@ WelcomeInterface::WelcomeInterface(QWidget *parent) :
     QPalette palette;
     palette.setBrush(QPalette::Background, QBrush(QPixmap(":/picture/picture/background.jpg")));
     this->setPalette(palette);
-
+    setAcceptDrops(true);
+    //设置不透明度
+    setWindowOpacity(0.95);
 }
 
 WelcomeInterface::~WelcomeInterface()
@@ -34,6 +40,41 @@ WelcomeInterface::~WelcomeInterface()
 void WelcomeInterface::on_goIntoGame_button_clicked()
 {
     switcher.showInterface("choose");
+}
+void WelcomeInterface::mousePressEvent(QMouseEvent *event){
+    if (event->button()==Qt::LeftButton){
+        QDrag *drag = new QDrag(this);
+        QMimeData *mimeData = new QMimeData;
+        drag->setMimeData(mimeData);
+        Qt::DropAction dropAction = drag->exec();
+    }
+}
+
+void WelcomeInterface::dragEnterEvent(QDragEnterEvent *event){
+    qDebug()<<"mouse drag";
+    if (event->mimeData()->hasUrls()){
+        event->acceptProposedAction();
+    }else{
+        event->ignore();
+    }
+}
+void WelcomeInterface::dropEvent(QDropEvent *event){
+    qDebug()<<"mouse drop";
+    const QMimeData *mimeData = event->mimeData();
+    if (mimeData->hasUrls()){
+        QString fileDir=mimeData->urls().at(0).toLocalFile();
+        qDebug()<<"url: "<<fileDir;
+        TextInfo text;
+        if (!text.openFile(fileDir)) return;
+        GameInfo game;
+        if (!text.transToGameInfo(game)){
+            QMessageBox::warning(this,"错误","非法的游戏存档",QMessageBox::Abort);
+            return;
+        }
+        emit sendTextInfo(text,game.gameFormat,0);
+        switcher.showInterface("game");
+
+    }
 }
 
 void WelcomeInterface::on_designGame_button_clicked()
@@ -47,7 +88,7 @@ void WelcomeInterface::on_loadGame_button_clicked()
     QUrl url = QFileDialog::getOpenFileUrl(this,"打开游戏存档",QUrl("/"),"(*.bak)");
     qDebug()<<"open file: "<<url.path();
     TextInfo text;
-    if (!text.openFile(url.path().remove(0,1))) return;
+    if (!text.openFile(url.toLocalFile())) return;
     GameInfo game;
     if (!text.transToGameInfo(game)){
         QMessageBox::warning(this,"错误","非法的游戏存档",QMessageBox::Abort);
@@ -64,6 +105,7 @@ void WelcomeInterface::on_setting_button_clicked()
     SettingForm setting(this);
     setting.exec();
 }
+
 
 void WelcomeInterface::on_help_button_clicked()
 {

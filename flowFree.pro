@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui multimedia
+QT       += core gui multimedia sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -25,7 +25,8 @@ SOURCES += main.cpp\
     chooseinterface.cpp \
     settingform.cpp \
     music.cpp \
-    solution.cpp
+    solution.cpp \
+    database.cpp
 
 HEADERS  += \
     enviroment.h \
@@ -41,12 +42,13 @@ HEADERS  += \
     chooseinterface.h \
     settingform.h \
     music.h \
-    solution.h
+    solution.h \
+    database.h
 
 FORMS    += \
     welcomeinterface.ui \
     designinterface.ui \
-    gameinterface.ui \r
+    gameinterface.ui \
     chooseinterface.ui \
     settingform.ui \
     gamedialog.ui

@@ -14,6 +14,8 @@ extern int startX,startY;//坐标为(y,x),其中x为坐标轴x轴正方向,y为�
 static const int BlockLen=100;
 //网格线宽度
 static const int penLen=2;
+//路径宽度
+static const int WayLen=30;
 //游戏中心点
 static const QPoint GameCenter(400,380);
 //设计界面8个待选颜色左上坐标
@@ -24,6 +26,7 @@ static const int selectionLen=100;
 //static const int cheatKeys[]={16777248,90,89,90,90,89};//shift+xyzzy
 //static const int cheatTot=6;
 static const QString cheatKeys="XYZZY";
+static const QString godModeKeys="WHOSYOURDADDY";
 
 //总颜色数
 static const int myColorTot = 11;

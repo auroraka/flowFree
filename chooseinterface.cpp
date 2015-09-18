@@ -1,6 +1,7 @@
 #include "chooseinterface.h"
 #include "switcher.h"
 #include "enviroment.h"
+#include "database.h"
 #include "textinfo.h"
 #include "ui_chooseinterface.h"
 #include <QPainter>
@@ -8,6 +9,7 @@
 #include <QMouseEvent>
 #include <QDebug>
 #include <QMessageBox>
+
 
 ChooseInterface::ChooseInterface(QWidget *parent) :
     QWidget(parent),
@@ -21,11 +23,43 @@ ChooseInterface::ChooseInterface(QWidget *parent) :
     QPalette palette;
     palette.setBrush(QPalette::Background, QBrush(QPixmap(":/picture/picture/background.jpg")));
     this->setPalette(palette);
-
+    //设置不透明度
+    setWindowOpacity(0.95);
 }
 
 
+void drawStar(QPainterPath &path,QRect rect){
+    QPoint start(rect.x(),rect.y());
+/*    path.moveTo(start+QPoint(34,1));
+    path.lineTo(start+QPoint(44,27));
+    path.lineTo(start+QPoint(67,27));
+    path.lineTo(start+QPoint(48,42));
+    path.lineTo(start+QPoint(54,67));
+    path.lineTo(start+QPoint(34,53));
+    path.lineTo(start+QPoint(14,67));
+    path.lineTo(start+QPoint(20,42));
+    path.lineTo(start+QPoint(1,27));
+    path.lineTo(start+QPoint(26,27));
+    path.lineTo(start+QPoint(34,1));*/
+
+    path.moveTo(start+QPoint(34,1));
+    path.lineTo(start+QPoint(44,27));
+    path.lineTo(start+QPoint(67,27));
+    path.lineTo(start+QPoint(48,42));
+    path.lineTo(start+QPoint(54,67));
+    path.lineTo(start+QPoint(34,53));
+    path.lineTo(start+QPoint(14,67));
+    path.lineTo(start+QPoint(20,42));
+    path.lineTo(start+QPoint(1,27));
+    path.lineTo(start+QPoint(26,27));
+    path.lineTo(start+QPoint(34,1));
+}
+
 void ChooseInterface::paintEvent(QPaintEvent *event){
+
+
+
+    //databaseInfo=database.getAllAchievement();
     QPainter painter(this);
     for (int i=1;i<=5;i++){
         int id=5+i-1;
@@ -40,8 +74,19 @@ void ChooseInterface::paintEvent(QPaintEvent *event){
         QTextStream(&levelInfo)<<id<<"*"<<id;
         painter.drawText(QPoint(30+30,80+defaultStartX+40+BlockLen*(i-1)),levelInfo);
         for (int j=1;j<=7;j++){
-            painter.drawRect(QRect(30+defaultStartY+100+BlockLen*(j-1),80+defaultStartX+BlockLen*(i-1),BlockLen/3*2,BlockLen/3*2));
-            painter.drawText(QPoint(30+defaultStartY+120+BlockLen*(j-1),80+defaultStartX+40+BlockLen*(i-1)),QString::number(j));
+            QRect rect(30+defaultStartY+100+BlockLen*(j-1),80+defaultStartX+BlockLen*(i-1),BlockLen/3*2,BlockLen/3*2);
+            if (database.haveAchievement(id,j)){
+                qDebug()<<"haveAchievement: "<<id<<" "<<j<<" "<<database.haveAchievement(i,j);
+                painter.save();
+                //painter.setPen(QPen(Qt::white));
+                QPainterPath path;
+                drawStar(path,rect);
+                painter.fillPath(path,QBrush(QColor(200,200,200)));
+                painter.restore();
+            }
+            painter.drawRect(rect);
+            painter.drawText(QPoint(30+defaultStartY+124+BlockLen*(j-1),84+defaultStartX+40+BlockLen*(i-1)),QString::number(j));
+
         }
     }
 }

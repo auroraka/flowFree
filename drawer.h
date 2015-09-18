@@ -7,7 +7,7 @@ class Drawer
 {
 
 public:
-    Drawer(QPaintDevice *device,GameInfo *game);
+    Drawer(GameInfo *game);
     void draw();//在device界面上按照game的信息绘制游戏界面
     void drawSource(QColor color,QPoint pos);
     QPainter *painter;
@@ -17,6 +17,7 @@ private:
     void drawGridding();//画网格线
     void drawBlocks();//画方块
     void drawWays();//画路径
+    void drawMouse();
     QPaintDevice *device;
     GameInfo *game;
 

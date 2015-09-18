@@ -18,10 +18,42 @@
 #include <QMessageBox>
 #include <QTime>
 #include <QFileDialog>
+#include <QPalette>
 
 
 QDialog *mydialog;
 
+
+GameInterface::GameInterface(QWidget *parent) :
+    QWidget(parent),
+    ui(new Ui::GameInterface)
+{
+    qDebug()<<"gameInterface maked";
+    ui->setupUi(this);
+    this->hide();
+
+    //添加背景
+    this->setAutoFillBackground(true);
+    QPalette palette;
+    palette.setBrush(QPalette::Background, QBrush(QPixmap(":/picture/picture/background.jpg")));
+    this->setPalette(palette);
+
+    wayConnectEvent=0;
+    drawer = new Drawer(&game);
+    //设置不透明度
+    setWindowOpacity(0.95);
+
+    //设置控制台为灰色
+    QPalette mypalette(this->palette());
+    mypalette.setColor(QPalette::Base,QColor(Qt::gray));
+    ui->lineEdit->setPalette(mypalette);
+    ui->lineEdit->hide();
+}
+
+GameInterface::~GameInterface()
+{
+    delete ui;
+}
 
 void GameInterface::paintEvent(QPaintEvent *event){
     //QPainter painter(this);
@@ -56,7 +88,9 @@ void GameInterface::mousePressEvent(QMouseEvent *event){
         if (!game.getLoc(a,b,event->pos())) return;
         qDebug()<<"mouse press: "<<a<<" "<<b;
         if (game.blocks[a][b].status == source){
-            isTracking = 1;
+            game.isTracking = 1;
+            game.mousePos=event->pos();
+            game.mouseColor=game.blocks[a][b].color;
             game.nowWay = game.map[a][b];
             for (int i=1;i<=game.waysTot;i++) if (game.ways[i].getColor() == game.blocks[a][b].color){
                 game.ways[i].clearTail();
@@ -68,7 +102,10 @@ void GameInterface::mousePressEvent(QMouseEvent *event){
 void GameInterface::keyPressEvent(QKeyEvent *event){
     //qDebug()<<"key press: "<<QChar(event->key())<<"["<<event->key()<<"]"<<"   "<<event->modifiers();
     if (event->modifiers() == Qt::ShiftModifier){
-        if (event->key()<256) cheatRecord+=QChar(event->key());
+        if (event->key()<256){
+            cheatRecord+=QChar(event->key());
+            godRecord+=QChar(event->key());
+        }
     }
 }
 void GameInterface::cheat(){
@@ -88,16 +125,23 @@ void GameInterface::keyReleaseEvent(QKeyEvent *event){
     if (event->key() == 16777248){
         if (cheatRecord == cheatKeys){
            cheat();
-        }else{
+        }
+        else{
             qDebug()<<"password wrong: "<<cheatRecord;
         }
+        if (godRecord == godModeKeys){
+            game.getGodMode();
+            ui->lineEdit->show();
+        }
+        godRecord="";
         cheatRecord="";
     }
 }
 
 void GameInterface::mouseMoveEvent(QMouseEvent *event){
-    if (event->buttons() == Qt::LeftButton && isTracking){
+    if (event->buttons() == Qt::LeftButton && game.isTracking){
         //qDebug()<<"!";
+        game.mousePos=event->pos();
         int a,b;
         if (!game.getLoc(a,b,event->pos())) return;
         //qDebug()<<"mouse move: "<<a<<" "<<b<<" nowWay:"<<ways[nowWay].head().loc;
@@ -119,7 +163,7 @@ void GameInterface::mouseMoveEvent(QMouseEvent *event){
           //      qDebug()<<"mark && size:"<<ways[nowWay].size();
                 if (game.blocks[a][b].status == source){
                     game.nowWay=0;
-                    isTracking=0;
+                    game.isTracking=0;
                     wayConnectEvent=1;
                 }
             }
@@ -136,7 +180,7 @@ void GameInterface::mouseReleaseEvent(QMouseEvent *event){
             wayConnectEvent=0;
             music.playMusic("wayconnect");
         }
-        if (isTracking){
+        if (game.isTracking){
             int a,b;
             if (!game.getLoc(a,b,event->pos())) return;
             //到达终点合法,否则撤销已画路径
@@ -145,7 +189,7 @@ void GameInterface::mouseReleaseEvent(QMouseEvent *event){
                 game.clearWay(game.nowWay);
                 this->update();
             }
-            isTracking = 0;
+            game.isTracking = 0;
             game.nowWay = 0;
         }
         if (checkGameComplete()){
@@ -181,7 +225,7 @@ void GameInterface::restartGame(){
         mydialog=NULL;
     }
     qDebug()<<"game restarting...";
-    isTracking = 0;
+    game.isTracking = 0;
     game.restart();
     startGame();
 }
@@ -203,6 +247,7 @@ bool GameInterface::checkGameComplete(){
 }
 
 void GameInterface::gameComplete(){
+    database.addAcievement(level,id);
     mydialog = new QDialog(this);
     Ui::GameDialog ui;
     ui.setupUi(mydialog);
@@ -258,30 +303,7 @@ void GameInterface::keepGame(){
     }
 }
 
-GameInterface::GameInterface(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::GameInterface)
-{
-    qDebug()<<"gameInterface maked";
-    ui->setupUi(this);
-    this->hide();
 
-    //添加背景
-    this->setAutoFillBackground(true);
-    QPalette palette;
-    palette.setBrush(QPalette::Background, QBrush(QPixmap(":/picture/picture/background.jpg")));
-    this->setPalette(palette);
-
-    wayConnectEvent=0;
-    drawer = new Drawer(this,&game);
-
-    //startGame();
-}
-
-GameInterface::~GameInterface()
-{
-    delete ui;
-}
 
 void GameInterface::connectTextInfo(QWidget *choose){
     connect(choose,SIGNAL(sendTextInfo(TextInfo,int,int)),this,SLOT(getTextInfo(TextInfo,int,int)));
@@ -291,7 +313,7 @@ void GameInterface::connectTextInfo(QWidget *choose){
 
 void GameInterface::on_back_button_clicked()
 {
-    isTracking = 0;
+    game.isTracking = 0;
     game.reInit();
     switcher.showInterface("choose","menuback");
 }
@@ -357,11 +379,35 @@ void GameInterface::on_save_button_clicked()
     QUrl url=QFileDialog::getSaveFileUrl(this,"保存到",QUrl("/"),"(*.bak)");
     qDebug()<<"save file :"<<url.path();
     TextInfo text(game);
-    text.saveFile(url.path().remove(0,1));
+    text.saveFile(url.toLocalFile());
 }
 
 void GameInterface::showLevel(){
     QString info;
     QTextStream(&info)<<tr("第 ")<<level<<tr("-")<<id<<tr(" 关");
     ui->label->setText(info);
+}
+
+void GameInterface::on_pushButton_clicked()
+{
+    game.style^=1;
+    this->update();
+}
+
+void GameInterface::on_lineEdit_editingFinished()
+{
+    qDebug()<<"lineEdit: "<<ui->lineEdit->text();
+    ui->lineEdit->setText("");
+    //(QPalette::dark());
+    //QBrush brush=QBrush(Qt::gray);
+    //palette.setBrush();
+    //ColorRole
+    //mypalette.setColor(QPalette::Background,QColor(Qt::gray));
+    //mypalette.setColor(QPalette::Text,QColor(Qt::gray));
+    //mypalette.setColor(QPalette::WindowText,QColor(Qt::gray));
+    //mypalette.setColor(QPalette::AlternateBase,QColor(Qt::gray));
+    //mypalette.setColor(QPalette::ToolTipBase,QColor(Qt::gray));
+    //mypalette.setColor(QPalette::ToolTipText,QColor(Qt::gray));
+    //mypalette.setColor(QPalette::Button,QColor(Qt::gray));
+    //mypalette.setColor(QPalette::ButtonText,QColor(Qt::gray));
 }

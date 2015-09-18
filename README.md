@@ -1,2 +1,2 @@
-# flowFree
-qt for game flowfree
+Qt小学期大作业
+FlowFree游戏

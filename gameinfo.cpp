@@ -12,6 +12,11 @@ GameInfo::GameInfo()
     gameFormat=5;
     makeBlocksInfo();
     noSolution=0;
+    style=0;
+    godMode=0;
+}
+void GameInfo::getGodMode(){
+    godMode=1;
 }
 
 void GameInfo::print(){

@@ -15,14 +15,15 @@ DesignInterface::DesignInterface(QWidget *parent) :
 {
     ui->setupUi(this);
     this->hide();
-    drawer  = new Drawer(this,&game);
+    drawer  = new Drawer(&game);
 
     //添加背景
     this->setAutoFillBackground(true);
     QPalette palette;
     palette.setBrush(QPalette::Background, QBrush(QPixmap(":/picture/picture/background.jpg")));
     this->setPalette(palette);
-
+    //设置不透明度
+    setWindowOpacity(0.95);
 }
 
 DesignInterface::~DesignInterface()
@@ -143,9 +144,9 @@ void DesignInterface::on_store_button_clicked()
         return;
     }
     QUrl url=QFileDialog::getSaveFileUrl(this,"保存到",QUrl("/"),"(*.bak)");
-    qDebug()<<"store file :"<<url.path();
+    qDebug()<<"store file :"<<url.path().remove(0,1);
     TextInfo text(game);
-    text.saveFile(url.path().remove(0,1));
+    text.saveFile(url.toLocalFile());
 }
 
 void DesignInterface::on_clear_button_clicked()

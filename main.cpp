@@ -6,12 +6,15 @@
 #include "music.h"
 #include "enviroment.h"
 #include "settingform.h"
+#include "database.h"
 #include <QApplication>
 #include <QDebug>
 #include <QTime>
+#include <QStyleFactory>
 
 Switcher switcher;
 Music music;
+Database database;
 int startX=30,startY=50;
 
 int main(int argc, char *argv[])
@@ -40,6 +43,6 @@ int main(int argc, char *argv[])
     //GameInterface game;
     //game.show();
     //-------------
-
+    //a.setStyle(new QMac);
     return a.exec();
 }

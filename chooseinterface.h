@@ -2,6 +2,7 @@
 #define CHOOSEINTERFACE_H
 
 #include "textinfo.h"
+#include "database.h"
 #include <QWidget>
 
 namespace Ui {
@@ -24,6 +25,7 @@ private slots:
     void on_back_button_clicked();//"Exit"按钮事件
 private:
     Ui::ChooseInterface *ui;
+    //DatabaseType databaseInfo;
 };
 
 

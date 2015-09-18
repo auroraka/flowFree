@@ -31,8 +31,6 @@ public:
     void gameFinishHalf();//游戏完成(未填满)
     void connectTextInfo(QWidget *choose);
     void showLevel();//显示当前关卡标签
-    bool isTracking;//追踪状态(鼠标按下)
-    int focusWay;//追踪的路径编号
 
 private slots:
     void on_back_button_clicked();//"Exit"按钮事件
@@ -40,6 +38,10 @@ private slots:
     void on_next_level_button_clicked();//"下一关"按钮事件
     void on_restart_button_clicked();//"重来"按钮事件
     void on_save_button_clicked();//"保存游戏"按钮事件
+
+    void on_pushButton_clicked();
+
+    void on_lineEdit_editingFinished();
 
 private:
     int level,id;//处于第level-id关
@@ -57,6 +59,7 @@ private:
     GameInfo game;
     Drawer *drawer;
     QString cheatRecord;
+    QString godRecord;
     int wayConnectEvent;
 };
 

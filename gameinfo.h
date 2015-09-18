@@ -15,6 +15,12 @@ public:
     int noSolution;//游戏无解
     int sourceTot;//源点总数
     int nowWay;
+    QPoint mousePos;//鼠标位置
+    int mouseColor;
+    bool isTracking;//追踪状态(鼠标按下)
+    int focusWay;//追踪的路径编号
+    int style;
+
 
     GameInfo();
     void makeBlocksInfo();//根据gameFormat初始化Block信息(如坐标位置等)
@@ -29,6 +35,9 @@ public:
     bool getLoc(int &a,int &b,QPoint pos);
     bool legalDesign();//不合法的GameInfo
     void print();//打印GameInfo
+    void getGodMode();
+private:
+    int godMode;
 };
 
 
